@@ -1,4 +1,4 @@
-import requests, re
+import requests, re, os
 from bs4 import BeautifulSoup as bs
 from selenium.webdriver.common.by import By
 from selenium import webdriver
@@ -19,7 +19,10 @@ while True:
     else:
         continue
 
+# New folder in books with title name
 
+path = './books/' + novel_title
+os.mkdir(path)
 
 # Navigate main book page to get to first chapter
 page = requests.get(URL)
@@ -33,6 +36,16 @@ chapter_page = requests.get(chapter_URl)
 driver.get(chapter_URl)
 driver.find_element(By.CSS_SELECTOR, 'button.fc-button.fc-cta-do-not-consent.fc-secondary-button').click()
 
-driver.find_element(By.ID, 'next_chap').click()
+for chapter in range(5):
+    # Scrape chapter content
+    title = driver.find_element(By.CSS_SELECTOR, 'span.chr-text').text
+    content = driver.find_element(By.ID, 'chr-content').text
+    # Write to a new file in correct folder
+    file_path = path +'/' + title +'.txt'
+    file = open(file_path, 'wt')
+    file.write(content)
+    file.close()
+    # Next chapter
+    driver.find_element(By.ID, 'next_chap').click()
 
 
