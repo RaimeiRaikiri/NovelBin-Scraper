@@ -40,6 +40,8 @@ for chapter in range(5):
     # Scrape chapter content
     title = driver.find_element(By.CSS_SELECTOR, 'span.chr-text').text
     content = driver.find_element(By.ID, 'chr-content').text
+    # So doesn't try to make more than one file
+    title = title.replace('/', '-')
     # Write to a new file in correct folder
     file_path = path +'/' + title +'.txt'
     file = open(file_path, 'wt')
