@@ -48,4 +48,4 @@ for chapter in range(5):
     # Next chapter
     driver.find_element(By.ID, 'next_chap').click()
 
-
+driver.quit()
